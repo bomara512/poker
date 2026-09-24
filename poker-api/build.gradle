@@ -1,7 +1,7 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id 'org.springframework.boot' version '4.1.0'
+    id 'org.springframework.boot' version '4.1.1'
     id 'java'
 }
 
@@ -27,6 +27,14 @@ repositories {
 dependencies {
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
     annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
+
+    constraints {
+        // Spring Boot 4.1.1's BOM still manages Tomcat 11.0.24; pin forward to 11.0.25,
+        // which fixes GHSA-h3x4-894j-xpx5, GHSA-9xv2-5v5q-p794 and GHSA-gcx9-497g-6cp6.
+        implementation 'org.apache.tomcat.embed:tomcat-embed-core:11.0.25'
+        implementation 'org.apache.tomcat.embed:tomcat-embed-el:11.0.25'
+        implementation 'org.apache.tomcat.embed:tomcat-embed-websocket:11.0.25'
+    }
 
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
